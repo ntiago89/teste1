@@ -1,0 +1,9 @@
+*.orig
+.DS_Store
+._*
+*~
+.directory
+Thumbs.db
+
+nbproject
+
