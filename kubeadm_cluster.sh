@@ -15,7 +15,7 @@ cat <<EOF
 Usage: $0 -r [PARAMs]
 NOTE: This execution must be done with root user, so execute sudo -s before execute this script 
 Example of the execution:
-sudo ./1st_kubeadm_cluster_as_root_user.sh -r master [-i 104.209.168.116]
+sudo ./kubeadm_cluster.sh -r master [-i 104.209.168.116]
 -u                      : Display usage
 -r [role]               : role = type of role wished: master or node (required)
 -i [ip]                 : ip = Public IP of the machine
@@ -25,55 +25,56 @@ EOF
 function create_master(){
 	# First update packages
 
-	echo "»» Update packages"
+	printf "\n»» Update packages"
 	sudo apt-get update -y
 
-	echo "»» Install docker.io"
+	printf "\n»» Install docker.io"
 	sudo apt-get install -qy docker.io
 
-	echo "»» Update packages, add gpg key"
+	printf "\n»» Update packages, add gpg key"
 	sudo apt-get update && sudo apt-get install -y apt-transport-https && sudo curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
 
-	echo "»» deb kubernetes"
+	printf "\n»» deb kubernetes"
 	echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list && sudo apt-get update
 
-	echo "»» Update and install kube*"
+	printf "\n»» Update and install kube*"
 	sudo apt-get update && sudo apt-get install -y kubelet kubeadm kubernetes-cni
 
-	echo "»» Enable docker"
+	printf "\n»» Enable docker"
 	systemctl enable docker.service
 	
-	echo "»» Initialize kubeadm
-Wait about a minute please..."
+	printf "\n»» Initialize kubeadm\nWait about a minute please..."
 	kubeadm init --pod-network-cidr=10.244.0.0/16 --apiserver-advertise-address=`ip a|grep -oP "inet \K[0-9.]*(?=.*[^ ][^o]$)"` > kubeadm_join.txt # `ip a|grep -oP "inet \K[0-9.]*(?=.*[^ ][^o]$)"` 
-	echo "Execute the following command in node terminal, as said in \"Important note\" when you execute it:
-	
-	`tail -2 kubeadm_join.txt | head -1`
-	
-This command is also saved in kubeadm_join.txt file"
-	
-	echo "
-****Now, without root user execute the 2nd_kubeadm_cluster_as_regular_user_only_for_master.sh****"
 
+	printf "\n»» Kube config"
+	sudo cp /etc/kubernetes/admin.conf $HOME/
+	sudo chown $(id -u):$(id -g) $HOME/admin.conf
+	export KUBECONFIG=$HOME/admin.conf
+	echo "export KUBECONFIG=$HOME/admin.conf" | tee -a ~/.bashrc
+
+	echo "
+»» Kube network config:"
+	kubectl apply --filename https://git.io/weave-kube-1.6
+	
 }
 
 function create_node(){
-	echo "»» Update packages"
+	printf "\n»» Update packages"
 	sudo apt-get update -y
 
-	echo "»» Install docker.io"
+	printf "\n»» Install docker.io"
 	sudo apt-get install -qy docker.io
 
-	echo "»» Update packages, add gpg key"
+	printf "\n»» Update packages, add gpg key"
 	sudo apt-get update && sudo apt-get install -y apt-transport-https && sudo curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
 
-	echo "»» deb kubernetes"
+	printf "\n»» deb kubernetes"
 	echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list && sudo apt-get update
 
-	echo "»» Update and install kube*"
+	printf "\n»» Update and install kube*"
 	sudo apt-get update && sudo apt-get install -y kubelet kubeadm kubernetes-cni
 
-	echo "»» Enable docker"
+	printf "\n»» Enable docker"
 	systemctl enable docker.service
 	
 	echo "
