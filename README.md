@@ -13,11 +13,11 @@ These are the requirements to use these scripts:
 To install kubeadm and is requirements, you must execute the following command as a root user for master:
 
 ```
-./kubeadm_cluster.sh -r master [-i <IP of the machine>]
+root@mymachine-master:$ ./kubeadm_cluster.sh -r master [-i <IP of the machine>]
 ```
 
 or for node:
 
 ```
-./kubeadm_cluster.sh -r node
+root@mymachine-node:$ ./kubeadm_cluster.sh -r node
 ```
