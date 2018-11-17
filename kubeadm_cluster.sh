@@ -25,56 +25,56 @@ EOF
 function create_master(){
 	# First update packages
 
-	printf "\n»» Update packages"
+	printf "\n»» Update packages\n"
 	sudo apt-get update -y
 
-	printf "\n»» Install docker.io"
+	printf "\n»» Install docker.io\n"
 	sudo apt-get install -qy docker.io
 
-	printf "\n»» Update packages, add gpg key"
+	printf "\n»» Update packages, add gpg key\n"
 	sudo apt-get update && sudo apt-get install -y apt-transport-https && sudo curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
 
-	printf "\n»» deb kubernetes"
+	printf "\n»» deb kubernetes\n"
 	echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list && sudo apt-get update
 
-	printf "\n»» Update and install kube*"
+	printf "\n»» Update and install kube*\n"
 	sudo apt-get update && sudo apt-get install -y kubelet kubeadm kubernetes-cni
 
-	printf "\n»» Enable docker"
+	printf "\n»» Enable docker\n"
 	systemctl enable docker.service
 	
-	printf "\n»» Initialize kubeadm\nWait about a minute please..."
+	printf "\n»» Initialize kubeadm\nWait about a minute please...\n"
 	kubeadm init --pod-network-cidr=10.244.0.0/16 --apiserver-advertise-address=`ip a|grep -oP "inet \K[0-9.]*(?=.*[^ ][^o]$)"` > kubeadm_join.txt # `ip a|grep -oP "inet \K[0-9.]*(?=.*[^ ][^o]$)"` 
 
-	printf "\n»» Kube config"
+	printf "\n»» Kube config\n"
 	sudo cp /etc/kubernetes/admin.conf $HOME/
 	sudo chown $(id -u):$(id -g) $HOME/admin.conf
 	export KUBECONFIG=$HOME/admin.conf
 	echo "export KUBECONFIG=$HOME/admin.conf" | tee -a ~/.bashrc
 
 	echo "
-»» Kube network config:"
+»» Kube network config:\n"
 	kubectl apply --filename https://git.io/weave-kube-1.6
 	
 }
 
 function create_node(){
-	printf "\n»» Update packages"
+	printf "\n»» Update packages\n"
 	sudo apt-get update -y
 
-	printf "\n»» Install docker.io"
+	printf "\n»» Install docker.io\n"
 	sudo apt-get install -qy docker.io
 
-	printf "\n»» Update packages, add gpg key"
+	printf "\n»» Update packages, add gpg key\n"
 	sudo apt-get update && sudo apt-get install -y apt-transport-https && sudo curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
 
-	printf "\n»» deb kubernetes"
+	printf "\n»» deb kubernetes\n"
 	echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list && sudo apt-get update
 
-	printf "\n»» Update and install kube*"
+	printf "\n»» Update and install kube*\n"
 	sudo apt-get update && sudo apt-get install -y kubelet kubeadm kubernetes-cni
 
-	printf "\n»» Enable docker"
+	printf "\n»» Enable docker\n"
 	systemctl enable docker.service
 	
 	echo "
