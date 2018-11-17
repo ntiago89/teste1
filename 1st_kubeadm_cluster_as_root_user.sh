@@ -45,11 +45,15 @@ function create_master(){
 	
 	echo "»» Initialize kubeadm
 Wait about a minute please..."
-	kubeadm init --pod-network-cidr=10.244.0.0/16 --apiserver-advertise-address=$IP > kubeadm_join.txt # `ip a|grep -oP "inet \K[0-9.]*(?=.*[^ ][^o]$)"` 
-	echo "Execute the following command in node terminal, as said in \"Important note\" when you execute it: `tail -2 kubeadm_join.txt | head -1`
-	This command is also saved in kubeadm_join.txt file"
+	kubeadm init --pod-network-cidr=10.244.0.0/16 --apiserver-advertise-address=`ip a|grep -oP "inet \K[0-9.]*(?=.*[^ ][^o]$)"` > kubeadm_join.txt # `ip a|grep -oP "inet \K[0-9.]*(?=.*[^ ][^o]$)"` 
+	echo "Execute the following command in node terminal, as said in \"Important note\" when you execute it:
 	
-	echo "\\n»» ****Now, without root user execute the 2nd_kubeadm_cluster_as_regular_user_only_for_master.sh****"
+	`tail -2 kubeadm_join.txt | head -1`
+	
+This command is also saved in kubeadm_join.txt file"
+	
+	echo "
+****Now, without root user execute the 2nd_kubeadm_cluster_as_regular_user_only_for_master.sh****"
 
 }
 
