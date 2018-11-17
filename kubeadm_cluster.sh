@@ -15,7 +15,7 @@ cat <<EOF
 Usage: $0 -r [PARAMs]
 NOTE: This execution must be done with root user, so execute sudo -s before execute this script 
 Example of the execution:
-sudo ./kubeadm_cluster.sh -r master [-i 104.209.168.116]
+source ./kubeadm_cluster.sh -r master [-i 104.209.168.116]
 -u                      : Display usage
 -r [role]               : role = type of role wished: master or node (required)
 -i [ip]                 : ip = Public IP of the machine
