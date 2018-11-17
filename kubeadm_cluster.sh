@@ -49,13 +49,15 @@ Wait about a minute please..."
 	echo "Execute the following command in node terminal, as said in \"Important note\" when you execute it: `tail -2 kubeadm_join.txt | head -1`
 	This command is also saved in kubeadm_join.txt file"
 	
-	kubectl apply --filename https://git.io/weave-kube-1.6
 	
-	echo "»» ****Please execute the following commands as regular user****:"
+	
+	echo "»» ****Please execute the following commands as regular user****:
 	sudo cp /etc/kubernetes/admin.conf $HOME/
 	sudo chown $(id -u):$(id -g) $HOME/admin.conf
 	export KUBECONFIG=$HOME/admin.conf
-	echo "export KUBECONFIG=$HOME/admin.conf" | tee -a ~/.bashrc
+	echo \"export KUBECONFIG=$HOME/admin.conf\" | tee -a ~/.bashrc
+	
+	# If kubeadm-master shows \"NotReady\" in \"kubectl get nodes\" and the reason is something related to Network execute the following command: kubectl apply --filename https://git.io/weave-kube-1.6"
 	
 	
 
