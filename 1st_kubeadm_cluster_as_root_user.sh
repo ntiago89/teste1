@@ -15,7 +15,7 @@ cat <<EOF
 Usage: $0 -r [PARAMs]
 NOTE: This execution must be done with root user, so execute sudo -s before execute this script 
 Example of the execution:
-sudo ./kubeadm_cluster.sh -r master [-i 104.209.168.116]
+sudo ./1st_kubeadm_cluster_as_root_user.sh -r master [-i 104.209.168.116]
 -u                      : Display usage
 -r [role]               : role = type of role wished: master or node (required)
 -i [ip]                 : ip = Public IP of the machine
@@ -49,17 +49,7 @@ Wait about a minute please..."
 	echo "Execute the following command in node terminal, as said in \"Important note\" when you execute it: `tail -2 kubeadm_join.txt | head -1`
 	This command is also saved in kubeadm_join.txt file"
 	
-	
-	
-	echo "»» ****Please execute the following commands as regular user****:
-	sudo cp /etc/kubernetes/admin.conf $HOME/
-	sudo chown $(id -u):$(id -g) $HOME/admin.conf
-	export KUBECONFIG=$HOME/admin.conf
-	echo \"export KUBECONFIG=$HOME/admin.conf\" | tee -a ~/.bashrc
-	
-	# If kubeadm-master shows \"NotReady\" in \"kubectl get nodes\" and the reason is something related to Network execute the following command: kubectl apply --filename https://git.io/weave-kube-1.6"
-	
-	
+	echo "\\n»» ****Now, without root user execute the 2nd_kubeadm_cluster_as_regular_user_only_for_master.sh****"
 
 }
 
