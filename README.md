@@ -38,7 +38,7 @@ $ sudo -s
 # ./kubeadm_cluster.sh -r node
 ```
 
-- Paste the kubeadm join into the terminal
+- Paste the kubeadm join, from master, into the terminal.
 
 - In **kubeadm-master**, again:
 ```
@@ -69,7 +69,7 @@ $ kubectl expose deployment helloworld --type=NodePort
 
 In other shell:
 ```
-curl <Pod’s IP>:<Port>
+$ curl <Pod’s IP>:<Port>
 ```
 
 ## Contributing
@@ -77,6 +77,8 @@ curl <Pod’s IP>:<Port>
 The script is based in two links:
 - [oom_rancher_setup](https://github.com/onap/logging-analytics/blob/master/deploy/rancher/oom_rancher_setup.sh)
 - [Setup Kubernetes Cluster locally on Ubuntu by IT Markaz](https://www.youtube.com/watch?v=6ZRphF0wGAM)
+
+A possible execution is available here: (https://youtu.be/dDRNWxHsi8Y)
 
 
 ## Authors
