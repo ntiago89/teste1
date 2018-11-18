@@ -78,7 +78,7 @@ The script is based in two links:
 - [oom_rancher_setup](https://github.com/onap/logging-analytics/blob/master/deploy/rancher/oom_rancher_setup.sh)
 - [Setup Kubernetes Cluster locally on Ubuntu by IT Markaz](https://www.youtube.com/watch?v=6ZRphF0wGAM)
 
-A possible execution is available here: (https://youtu.be/dDRNWxHsi8Y)
+A possible execution is available here: [Kubeadm in Google Cloud Platform](https://youtu.be/dDRNWxHsi8Y)
 
 
 ## Authors
