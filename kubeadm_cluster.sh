@@ -55,17 +55,16 @@ function create_master(){
 	export KUBECONFIG=$HOME/admin.conf
 	echo "export KUBECONFIG=$HOME/admin.conf" | tee -a ~/.bashrc
 
-	printf "
-»» Kube network config:\n"
+	printf "\n»» Kube network config:\n"
 	kubectl apply --filename https://git.io/weave-kube-1.6
 
 	echo "
-»» Kubeadm join command:\n
+»» Kubeadm join command:
 	`cat kubeadm_join.txt | tail -2 | head -1`"
 }
 
 function create_node(){
-	printf "\n»» Update packages\n"
+	printf "»» Update packages\n"
 	sudo apt-get update -y
 
 	printf "\n»» Install docker.io\n"
