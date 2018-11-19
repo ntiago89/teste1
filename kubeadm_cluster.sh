@@ -60,8 +60,8 @@ function create_master(){
 	kubectl apply --filename https://git.io/weave-kube-1.6
 
 	echo "
-»» Kubeadm join command:\n"
-	`cat kubeadm_join.txt | tail -2 | head -1`
+»» Kubeadm join command:\n
+	`cat kubeadm_join.txt | tail -2 | head -1`"
 }
 
 function create_node(){
