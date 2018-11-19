@@ -15,17 +15,19 @@ cat <<EOF
 Usage: $0 -r [PARAMs]
 NOTE: This execution must be done with root user, so execute sudo -s before execute this script 
 Example of the execution:
-source ./kubeadm_cluster.sh -r master [-i 104.209.168.116]
+source ./kubeadm_cluster.sh -r master
 -u                      : Display usage
 -r [role]               : role = type of role wished: master or node (required)
--i [ip]                 : ip = Public IP of the machine
 EOF
 }
+
+# source ./kubeadm_cluster.sh -r master [-i 104.209.168.116]
+# -i [ip]                 : ip = Public IP of the machine
 
 function create_master(){
 	# First update packages
 
-	printf "\n»» Update packages\n"
+	printf "»» Update packages\n"
 	sudo apt-get update -y
 
 	printf "\n»» Install docker.io\n"
@@ -42,9 +44,10 @@ function create_master(){
 
 	printf "\n»» Enable docker\n"
 	systemctl enable docker.service
-	
+
 	printf "\n»» Initialize kubeadm\nWait about a minute please...\n"
 	kubeadm init --pod-network-cidr=10.244.0.0/16 --apiserver-advertise-address=`ip a|grep -oP "inet \K[0-9.]*(?=.*[^ ][^o]$)"` > kubeadm_join.txt # `ip a|grep -oP "inet \K[0-9.]*(?=.*[^ ][^o]$)"` 
+	#kubeadm init --pod-network-cidr=10.244.0.0/16 --apiserver-advertise-address=$IP > kubeadm_join.txt # `ip a|grep -oP "inet \K[0-9.]*(?=.*[^ ][^o]$)"` 
 
 	printf "\n»» Kube config\n"
 	sudo cp /etc/kubernetes/admin.conf $HOME/
@@ -52,10 +55,13 @@ function create_master(){
 	export KUBECONFIG=$HOME/admin.conf
 	echo "export KUBECONFIG=$HOME/admin.conf" | tee -a ~/.bashrc
 
-	echo "
+	printf "
 »» Kube network config:\n"
 	kubectl apply --filename https://git.io/weave-kube-1.6
-	
+
+	echo "
+»» Kubeadm join command:\n"
+	`cat kubeadm_join.txt | tail -2 | head -1`
 }
 
 function create_node(){
@@ -105,9 +111,9 @@ while getopts ":u:r:i" PARAM; do
 	r)
       ROLE=${OPTARG}
       ;;
-    i)
-      IP=${OPTARG}
-      ;;
+#    i)
+#      IP=${OPTARG}
+#      ;;
     ?)
       usage
       exit
@@ -120,4 +126,4 @@ if [[ -z $ROLE ]]; then
   exit 1
 fi
 
-create_cluster_role $ROLE $IP
+create_cluster_role $ROLE # $IP
