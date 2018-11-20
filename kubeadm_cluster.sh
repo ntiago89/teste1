@@ -46,8 +46,8 @@ function create_master(){
 	systemctl enable docker.service
 
 	printf "\n»» Initialize kubeadm\nWait about a minute please...\n"
-	kubeadm init --pod-network-cidr=10.244.0.0/16 --apiserver-advertise-address=`ip a|grep -oP "inet \K[0-9.]*(?=.*[^ ][^o]$)"` > kubeadm_join.txt # `ip a|grep -oP "inet \K[0-9.]*(?=.*[^ ][^o]$)"` 
-	#kubeadm init --pod-network-cidr=10.244.0.0/16 --apiserver-advertise-address=$IP > kubeadm_join.txt # `ip a|grep -oP "inet \K[0-9.]*(?=.*[^ ][^o]$)"` 
+	kubeadm init --pod-network-cidr=10.244.0.0/16 --apiserver-advertise-address=`ip a|grep -oP "inet \K[0-9.]*(?=.*[^ ][^o]$)"` > kubeadm_join.txt
+	#kubeadm init --pod-network-cidr=10.244.0.0/16 --apiserver-advertise-address=$IP > kubeadm_join.txt # In a previous version the IP is asked to pass in parameters, but an update was done and no need to pass it in parameters now.
 
 	printf "\n»» Kube config\n"
 	sudo cp /etc/kubernetes/admin.conf $HOME/
