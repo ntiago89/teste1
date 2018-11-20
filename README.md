@@ -23,8 +23,8 @@ $ sudo -s
 # chmod + x kubeadm_cluster.sh
 # source ./kubeadm_cluster.sh
 $ sudo -s
-# source ./kubeadm_cluster.sh -r master -i <Public IP of the machine in Google Cloud>
-# tail -2 kubeadm_join.txt | head -1
+# source ./kubeadm_cluster.sh -r master
+# tail -2 kubeadm_join.txt | head -1 [optionally: because in the end of kubeadm_cluster.sh the "kubeadm join" command is displayed]
 ```
 
 - Copy kubeadm join and paste into kubeadm-node, as noted below. Kubeadm join saved to kubeadm_join.txt in the machine
